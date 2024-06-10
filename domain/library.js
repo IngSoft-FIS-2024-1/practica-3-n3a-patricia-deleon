@@ -12,12 +12,12 @@ class Library {
   }
 
   setName(name) {
-    if (typeof (name) !== "string") {
-      throw new Error()
+    if (typeof (name) !== 'string') {
+      throw new Error();
     }
     name = name.trim();
     if (name.length === 0) {
-      throw new Error()
+      throw new Error();
     }
     this.#name = name;
   }
@@ -26,9 +26,10 @@ class Library {
     return this.#name;
   }
 
-  addBook(title, author, pages) {
-    const newBook = new Book(title, author, pages);
+  addBook(title, author, pages, words) {
+    const newBook = new Book(title, author, pages, words);
     this.#inventory.push(newBook);
+    this.totalWords();
   }
 
   getInventory() {
@@ -40,7 +41,18 @@ class Library {
   }
 
   totalWords() {
-    // TODO
+    let totalWords = 0;
+    let wordCount = 0;
+
+    for (const book of this.#inventory) {
+      if (book.wordsPerPage() > 0) {
+        totalWords += book.wordsPerPage() * book.pages;
+        wordCount += book.words;
+      }
+    }
+
+    this.#totalWords = totalWords;
+    this.#wordCount = wordCount;
   }
 }
 
